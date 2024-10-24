@@ -1,24 +1,28 @@
-use std::io;
+use std::fs;
 
 fn main() {
-    let mut input = String::new();
-    let _ = io::stdin().read_line(&mut input).expect("failed to read line");
+    let input = fs::read_to_string("./input.txt")
+        .expect("Should have been able to read the file");
 
-    let work : Vec<char> = input.chars().collect();
+    let mut count : i32 = 0;
+    let mut place : i32 = 1;
 
-    let mut count = 0;
-    let mut l_bracket = 0;
-    let mut r_bracket = 0;
-
-    for x in work{
+    for x in input.chars(){
         if x == '('{
             count += 1;
-            l_bracket += 1;
-        } else if x == ')'{
+        } else{
             count -= 1;
-            r_bracket += 1;
         }
-    }
 
-    println!("{}, {}, {}", count, l_bracket, r_bracket);
+        if count == -1{
+            done(count, place);
+            return;
+        }
+
+        place += 1;
+    }
+}
+
+fn done(count : i32, place : i32) {
+    println!("count : {}, place : {}", count, place);
 }
